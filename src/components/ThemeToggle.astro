@@ -1,0 +1,101 @@
+---
+---
+
+<div class="w-full flex justify-end px-4 pt-4 pb-1">
+  <button
+    id="theme-toggle-btn"
+    type="button"
+    aria-label="Alternar entre tema branco e azul escuro"
+    class="flex items-center gap-2 px-3 py-1.5 rounded-full text-[12px] font-medium transition-all duration-200 cursor-pointer border shadow-xs"
+    style="background: var(--card-bg); color: var(--card-text); border-color: var(--card-border);"
+  >
+    {/* Ícone Sol (aparece no modo escuro para ir pro claro) */}
+    <svg
+      id="sun-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="hidden"
+      aria-hidden="true"
+    >
+      <circle cx="12" cy="12" r="4"></circle>
+      <path d="M12 2v2"></path>
+      <path d="M12 20v2"></path>
+      <path d="m4.93 4.93 1.41 1.41"></path>
+      <path d="m17.66 17.66 1.41 1.41"></path>
+      <path d="M2 12h2"></path>
+      <path d="M22 12h2"></path>
+      <path d="m6.34 17.66-1.41 1.41"></path>
+      <path d="m19.07 4.93-1.41 1.41"></path>
+    </svg>
+
+    {/* Ícone Lua (aparece no modo claro para ir pro escuro) */}
+    <svg
+      id="moon-icon"
+      xmlns="http://www.w3.org/2000/svg"
+      width="15"
+      height="15"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      class="inline-block"
+      aria-hidden="true"
+    >
+      <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
+    </svg>
+
+    <span id="theme-label" class="tracking-wide text-[11px]">Tema</span>
+  </button>
+</div>
+
+<script>
+  function setupThemeToggle() {
+    const btn = document.getElementById('theme-toggle-btn');
+    const sunIcon = document.getElementById('sun-icon');
+    const moonIcon = document.getElementById('moon-icon');
+    const label = document.getElementById('theme-label');
+    if (!btn) return;
+
+    function applyTheme(theme: string) {
+      if (theme === 'dark') {
+        document.documentElement.setAttribute('data-theme', 'dark');
+        localStorage.setItem('site-theme', 'dark');
+        sunIcon?.classList.remove('hidden');
+        sunIcon?.classList.add('inline-block');
+        moonIcon?.classList.add('hidden');
+        moonIcon?.classList.remove('inline-block');
+        if (label) label.textContent = 'Modo Escuro';
+      } else {
+        document.documentElement.removeAttribute('data-theme');
+        localStorage.setItem('site-theme', 'light');
+        sunIcon?.classList.add('hidden');
+        sunIcon?.classList.remove('inline-block');
+        moonIcon?.classList.remove('hidden');
+        moonIcon?.classList.add('inline-block');
+        if (label) label.textContent = 'Modo Branco';
+      }
+    }
+
+    // Inicialização a partir do localStorage ou padrão (light)
+    const savedTheme = localStorage.getItem('site-theme') || 'light';
+    applyTheme(savedTheme);
+
+    btn.addEventListener('click', () => {
+      const current = document.documentElement.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+      applyTheme(current === 'dark' ? 'light' : 'dark');
+    });
+  }
+
+  setupThemeToggle();
+  document.addEventListener('astro:page-load', setupThemeToggle);
+</script>
+

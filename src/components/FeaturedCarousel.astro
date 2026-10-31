@@ -1,0 +1,183 @@
+---
+import type { FeaturedPost } from '../types';
+import { withBase } from '../utils/base';
+
+export interface Props {
+  title?: string;
+  posts: FeaturedPost[];
+}
+
+const { title = 'NO BLOG AGORA', posts } = Astro.props;
+---
+
+<section class="w-full px-4 my-3" aria-label="Destaques do Blog">
+  {/* Título da Seção */}
+  <div class="text-center mb-3">
+    <span
+      class="text-[11px] font-semibold tracking-[0.24em] uppercase select-none transition-colors duration-300"
+      style="color: var(--text-muted);"
+    >
+      {title}
+    </span>
+  </div>
+
+  {/* Container do Carrossel */}
+  <div
+    id="blog-carousel"
+    class="relative w-full aspect-[16/10] sm:aspect-[16/9] rounded-3xl overflow-hidden shadow-2xl group cursor-pointer transition-all duration-300"
+    style="background: var(--carousel-bg); border: 1px solid var(--carousel-border);"
+    data-total={posts.length}
+  >
+    {posts.map((post, index) => {
+      const imageSrc = withBase(post.imageUrl);
+      return (
+        <a
+          href={post.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          data-slide-index={index}
+          class={`slide absolute inset-0 block transition-opacity duration-700 ease-in-out ${
+            index === 0 ? 'opacity-100 z-10 pointer-events-auto' : 'opacity-0 z-0 pointer-events-none'
+          }`}
+          aria-label={`Ver artigo: ${post.title}`}
+        >
+          {/* Imagem de Fundo */}
+          <img
+            src={imageSrc}
+            alt={post.title}
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading={index === 0 ? 'eager' : 'lazy'}
+          />
+
+          {/* Gradiente escuro para legibilidade */}
+          <div class="absolute inset-0 bg-gradient-to-t from-[#0a1226]/95 via-[#0a1226]/40 to-black/10"></div>
+
+          {/* Conteúdo textual sobreposto */}
+          <div class="absolute bottom-0 inset-x-0 p-5 sm:p-6 flex flex-col justify-end text-left">
+            <span
+              class="text-[10.5px] font-semibold tracking-[0.2em] uppercase mb-1 drop-shadow-xs"
+              style="color: var(--carousel-tag);"
+            >
+              {post.category}
+            </span>
+            <h2 class="font-serif-luxury text-white text-[19px] sm:text-2xl font-normal leading-snug drop-shadow-md">
+              {post.title}
+            </h2>
+          </div>
+        </a>
+      );
+    })}
+
+    {/* Indicadores de Paginação */}
+    <div
+      class="absolute top-4 right-4 z-20 flex items-center gap-1.5 bg-black/40 backdrop-blur-xs px-2.5 py-1.5 rounded-full"
+      role="tablist"
+      aria-label="Controles do carrossel"
+    >
+      {posts.map((post, index) => (
+        <button
+          type="button"
+          data-dot-index={index}
+          aria-label={`Ir para slide ${index + 1}: ${post.title}`}
+          class={`carousel-dot transition-all duration-300 rounded-full cursor-pointer ${
+            index === 0
+              ? 'w-5 h-2 bg-white'
+              : 'w-2 h-2 bg-white/40 hover:bg-white/70'
+          }`}
+        />
+      ))}
+    </div>
+  </div>
+</section>
+
+<script>
+  function setupCarousel() {
+    const container = document.getElementById('blog-carousel');
+    if (!container) return;
+
+    const slides = container.querySelectorAll<HTMLElement>('.slide');
+    const dots = container.querySelectorAll<HTMLButtonElement>('.carousel-dot');
+    const total = slides.length;
+    if (total <= 1) return;
+
+    let currentIndex = 0;
+    let timer: number | undefined;
+
+    function goToSlide(index: number) {
+      currentIndex = (index + total) % total;
+
+      slides.forEach((slide, i) => {
+        if (i === currentIndex) {
+          slide.classList.remove('opacity-0', 'z-0', 'pointer-events-none');
+          slide.classList.add('opacity-100', 'z-10', 'pointer-events-auto');
+        } else {
+          slide.classList.remove('opacity-100', 'z-10', 'pointer-events-auto');
+          slide.classList.add('opacity-0', 'z-0', 'pointer-events-none');
+        }
+      });
+
+      dots.forEach((dot, i) => {
+        if (i === currentIndex) {
+          dot.classList.remove('w-2', 'bg-white/40');
+          dot.classList.add('w-5', 'bg-white');
+        } else {
+          dot.classList.remove('w-5', 'bg-white');
+          dot.classList.add('w-2', 'bg-white/40');
+        }
+      });
+    }
+
+    function startAutoPlay() {
+      stopAutoPlay();
+      timer = window.setInterval(() => {
+        goToSlide(currentIndex + 1);
+      }, 4500);
+    }
+
+    function stopAutoPlay() {
+      if (timer) {
+        clearInterval(timer);
+        timer = undefined;
+      }
+    }
+
+    dots.forEach((dot) => {
+      dot.addEventListener('click', (e) => {
+        e.preventDefault();
+        e.stopPropagation();
+        const targetIndex = Number(dot.getAttribute('data-dot-index'));
+        goToSlide(targetIndex);
+        startAutoPlay();
+      });
+    });
+
+    container.addEventListener('mouseenter', stopAutoPlay);
+    container.addEventListener('mouseleave', startAutoPlay);
+
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    container.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+      stopAutoPlay();
+    }, { passive: true });
+
+    container.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 40) {
+        if (diff > 0) {
+          goToSlide(currentIndex + 1);
+        } else {
+          goToSlide(currentIndex - 1);
+        }
+      }
+      startAutoPlay();
+    }, { passive: true });
+
+    startAutoPlay();
+  }
+
+  setupCarousel();
+  document.addEventListener('astro:page-load', setupCarousel);
+</script>

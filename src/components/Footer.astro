@@ -1,0 +1,29 @@
+---
+import type { SiteFooter } from '../types';
+
+export interface Props {
+  footer: SiteFooter;
+}
+
+const { footer } = Astro.props;
+---
+
+<footer class="w-full text-center pt-8 pb-12 px-4 transition-colors duration-300">
+  <p class="text-[12px] sm:text-[13px] font-normal tracking-wide" style="color: var(--footer-text);">
+    {footer.copyright}
+    {footer.blogName && (
+      <>
+        <span class="mx-1.5 opacity-50">·</span>
+        <a
+          href={footer.blogUrl || '#'}
+          class="underline underline-offset-4 transition-colors hover:opacity-100"
+          style="color: var(--text-primary);"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {footer.blogName}
+        </a>
+      </>
+    )}
+  </p>
+</footer>

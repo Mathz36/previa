@@ -1,0 +1,64 @@
+---
+import type { Profile, SocialLink } from '../types';
+import Icon from './Icon.astro';
+import { withBase } from '../utils/base';
+
+export interface Props {
+  profile: Profile;
+  socials: SocialLink[];
+}
+
+const { profile, socials } = Astro.props;
+const avatarSrc = withBase(profile.avatarUrl);
+---
+
+<header class="flex flex-col items-center text-center pt-5 pb-3 px-4">
+  {/* Avatar com borda elegante */}
+  <div class="relative group">
+    <div
+      class="w-28 h-28 sm:w-32 sm:h-32 rounded-full p-[3px] shadow-xl transition-all duration-300"
+      style="background: linear-gradient(180deg, var(--avatar-ring) 0%, transparent 100%); box-shadow: 0 10px 25px -5px var(--card-border);"
+    >
+      <img
+        src={avatarSrc}
+        alt={profile.avatarAlt}
+        class="w-full h-full object-cover rounded-full ring-2 ring-white/60 dark:ring-white/10"
+        loading="eager"
+      />
+    </div>
+  </div>
+
+  {/* Nome com fonte cursiva elegante */}
+  <div class="mt-4 mb-2">
+    <h1
+      class="font-signature text-[3.25rem] sm:text-6xl font-normal drop-shadow-xs tracking-normal leading-tight transition-colors duration-300"
+      style="color: var(--text-primary);"
+    >
+      {profile.signatureText || profile.name}
+    </h1>
+  </div>
+
+  {/* Bio */}
+  <p
+    class="text-[13.5px] sm:text-[14.5px] leading-relaxed max-w-[340px] font-normal transition-colors duration-300 opacity-90"
+    style="color: var(--text-secondary);"
+  >
+    {profile.bio}
+  </p>
+
+  {/* Redes Sociais */}
+  <div class="flex items-center justify-center gap-3.5 mt-5">
+    {socials.map((social) => (
+      <a
+        href={social.url}
+        target="_blank"
+        rel="noopener noreferrer"
+        aria-label={social.label}
+        class="w-11 h-11 rounded-full flex items-center justify-center border transition-all duration-200 hover:scale-105 active:scale-95 shadow-md"
+        style="background: var(--social-btn-bg); border-color: var(--social-btn-border); color: var(--social-btn-icon);"
+      >
+        <Icon name={social.platform} size={20} />
+      </a>
+    ))}
+  </div>
+</header>

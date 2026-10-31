@@ -1,0 +1,33 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import FeaturedCarousel from '../components/FeaturedCarousel.astro';
+import LinkCard from '../components/LinkCard.astro';
+import Footer from '../components/Footer.astro';
+import ThemeToggle from '../components/ThemeToggle.astro';
+import { siteConfig } from '../data/mockData';
+
+const { metaTitle, metaDescription, profile, socials, featuredSectionTitle, featuredPosts, menuLinks, footer } =
+  siteConfig;
+---
+
+<Layout title={metaTitle} description={metaDescription}>
+  {/* Botão de Alternância de Tema (Branco / Azul Escuro #121f3f) */}
+  <ThemeToggle />
+
+  {/* Cabeçalho: Avatar, Nome cursivo, Bio e Redes Sociais */}
+  <Header profile={profile} socials={socials} />
+
+  {/* Destaque "NO BLOG AGORA" em carrossel rotativo */}
+  <FeaturedCarousel title={featuredSectionTitle} posts={featuredPosts} />
+
+  {/* Lista de Links do Menu */}
+  <section class="w-full px-4 flex flex-col gap-3 sm:gap-3.5 my-3" aria-label="Links rápidos">
+    {menuLinks.map((item) => (
+      <LinkCard item={item} />
+    ))}
+  </section>
+
+  {/* Rodapé com copyright */}
+  <Footer footer={footer} />
+</Layout>

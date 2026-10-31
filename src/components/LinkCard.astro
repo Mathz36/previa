@@ -1,0 +1,52 @@
+---
+import type { MenuItem } from '../types';
+import Icon from './Icon.astro';
+
+export interface Props {
+  item: MenuItem;
+}
+
+const { item } = Astro.props;
+---
+
+<a
+  href={item.url}
+  target={item.isExternal ? '_blank' : '_self'}
+  rel={item.isExternal ? 'noopener noreferrer' : undefined}
+  class="group relative flex items-center justify-between w-full px-5 py-4 sm:py-4.5 rounded-3xl transition-all duration-200 hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.99] border"
+  style="background: var(--card-bg); color: var(--card-text); border-color: var(--card-border); box-shadow: var(--card-shadow);"
+>
+  {/* Ícone à Esquerda */}
+  <div
+    class="flex-shrink-0 mr-4 flex items-center justify-center w-7 h-7 transition-colors duration-200"
+    style="color: var(--card-icon);"
+  >
+    <Icon name={item.icon} size={22} />
+  </div>
+
+  {/* Textos Central/Esquerda */}
+  <div class="flex-1 text-left min-w-0 pr-3">
+    <h3
+      class="font-semibold text-[15px] sm:text-[16px] tracking-tight leading-tight truncate transition-colors duration-200"
+      style="color: var(--card-text);"
+    >
+      {item.title}
+    </h3>
+    {item.subtitle && (
+      <p
+        class="text-[12px] sm:text-[12.8px] font-normal leading-snug mt-0.5 line-clamp-2 transition-colors duration-200 opacity-90"
+        style="color: var(--card-subtitle);"
+      >
+        {item.subtitle}
+      </p>
+    )}
+  </div>
+
+  {/* Seta à Direita */}
+  <div
+    class="flex-shrink-0 transition-all duration-200 group-hover:translate-x-1"
+    style="color: var(--card-arrow);"
+  >
+    <Icon name="arrow-right" size={18} />
+  </div>
+</a>
