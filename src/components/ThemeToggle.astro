@@ -21,7 +21,7 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="hidden"
+      class="inline-block"
       aria-hidden="true"
     >
       <circle cx="12" cy="12" r="4"></circle>
@@ -47,13 +47,13 @@
       stroke-width="2"
       stroke-linecap="round"
       stroke-linejoin="round"
-      class="inline-block"
+      class="hidden"
       aria-hidden="true"
     >
       <path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z"></path>
     </svg>
 
-    <span id="theme-label" class="tracking-wide text-[11px]">Tema</span>
+    <span id="theme-label" class="tracking-wide text-[11px]">Modo Escuro</span>
   </button>
 </div>
 
@@ -85,8 +85,8 @@
       }
     }
 
-    // Inicialização a partir do localStorage ou padrão (light)
-    const savedTheme = localStorage.getItem('site-theme') || 'light';
+    // Inicialização a partir do localStorage ou padrão (dark)
+    const savedTheme = localStorage.getItem('site-theme') || 'dark';
     applyTheme(savedTheme);
 
     btn.addEventListener('click', () => {

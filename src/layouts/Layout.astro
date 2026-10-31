@@ -15,7 +15,7 @@ const faviconURL = withBase('/favicon.svg');
 ---
 
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-theme="dark">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
@@ -55,10 +55,10 @@ const faviconURL = withBase('/favicon.svg');
     <script is:inline>
       (() => {
         const saved = localStorage.getItem('site-theme');
-        if (saved === 'dark') {
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
+        if (saved === 'light') {
           document.documentElement.removeAttribute('data-theme');
+        } else {
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>
