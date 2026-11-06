@@ -67,6 +67,20 @@ export const siteConfig: SiteConfig = {
       imageUrl: '/images/slide-5.jpg',
       url: 'https://expedicao.ngturismo.com.br/',
     },
+    {
+      id: 'sunset-vinhedos',
+      category: 'VINHEDOS & DEGUSTAÇÃO',
+      title: 'Pôr do Sol nos Andes e Vinhos Chilenos',
+      imageUrl: '/images/slide-6.jpg',
+      url: 'https://expedicao.ngturismo.com.br/',
+    },
+    {
+      id: 'apres-ski-montanha',
+      category: 'EXPERIÊNCIA EXCLUSIVA',
+      title: 'Celebração Après-Ski na Cordilheira',
+      imageUrl: '/images/slide-7.jpg',
+      url: 'https://expedicao.ngturismo.com.br/',
+    },
   ],
   menuLinks: [
     {
