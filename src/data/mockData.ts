@@ -84,9 +84,9 @@ export const siteConfig: SiteConfig = {
   ],
   menuLinks: [
     {
-      id: 'blog-completo',
+      id: 'site-completo',
       icon: 'home',
-      title: 'Blog completo',
+      title: 'Site Completo',
       subtitle: 'Todas as matérias sobre o Chile',
       url: 'https://expedicao.ngturismo.com.br/',
       isExternal: true,
@@ -118,7 +118,7 @@ export const siteConfig: SiteConfig = {
   ],
   footer: {
     copyright: '© 2026 Luis Fernando',
-    blogName: 'blog',
+    blogName: 'site',
     blogUrl: 'https://expedicao.ngturismo.com.br/',
   },
 };
