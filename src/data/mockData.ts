@@ -100,11 +100,11 @@ export const siteConfig: SiteConfig = {
       isExternal: true,
     },
     {
-      id: 'instagram-link',
-      icon: 'instagram',
-      title: 'Instagram',
-      subtitle: 'O dia a dia por aqui',
-      url: 'https://www.instagram.com/fernandoluiz.oficial/',
+      id: 'wise-link',
+      icon: 'wise',
+      title: 'Wise',
+      subtitle: 'Abra sua conta global e economize no câmbio',
+      url: 'https://wise.com/invite/drhc/bc7302a?utm_source=desktop-referral-hub-copylink&utm_medium=invite&referralCode=bc7302a',
       isExternal: true,
     },
     {

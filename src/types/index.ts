@@ -24,7 +24,7 @@ export interface FeaturedPost {
   date?: string;
 }
 
-export type MenuIconType = 'home' | 'whatsapp' | 'instagram' | 'star' | 'plane' | 'camera' | 'book' | 'globe';
+export type MenuIconType = 'home' | 'whatsapp' | 'instagram' | 'wise' | 'star' | 'plane' | 'camera' | 'book' | 'globe';
 
 export interface MenuItem {
   id: string;
